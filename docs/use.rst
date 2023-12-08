@@ -38,7 +38,7 @@ Now we can create our first real tenant.
                     on_trial=True)
     tenant.save() # migrate_schemas automatically called, your tenant is ready to be used!
 
-Because you have the tenant middleware installed, any request made to ``tenant.my-domain.com`` will now automatically set your PostgreSQL's ``search_path`` to ``tenant1, public``, making shared apps available too. The tenant will be made available at ``request.tenant``. By the way, the current schema is also available at ``connection.schema_name``, which is useful, for example, if you want to hook to any of django's signals.
+Because you have the tenant middleware installed, any request made to ``tenant.my-domain.com`` will now automatically set your PostgreSQL's ``search_path`` to ``tenant, public``, making shared apps available too. The tenant will be made available at ``request.tenant``. By the way, the current schema is also available at ``connection.schema_name``, which is useful, for example, if you want to hook to any of django's signals.
 
 Any call to the methods ``filter``, ``get``, ``save``, ``delete`` or any other function involving a database connection will now be done at the tenant's schema, so you shouldn't need to change anything at your views.
 
@@ -140,7 +140,7 @@ The command ``createsuperuser`` is already automatically wrapped to have a ``sch
 
 .. code-block:: bash
 
-    ./manage.py createsuperuser --username=admin --schema=customer1
+    ./manage.py tenant_command createsuperuser --username=admin --schema=customer1
 
 
 list_tenants
@@ -221,7 +221,7 @@ This is a context manager. Database queries performed inside it will be executed
 
 .. function:: tenant_context(tenant_object)
 
-This context manager is very similiar to the ``schema_context`` function,
+This context manager is very similar to the ``schema_context`` function,
 but it takes a tenant model object as the argument instead.
 
 .. code-block:: python

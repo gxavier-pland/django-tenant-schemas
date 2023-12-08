@@ -94,12 +94,11 @@ class BaseTenantCommand(BaseCommand):
                     options["skip_public"]
                     and tenant.schema_name == get_public_schema_name()
                 ):
-                    self.execute_command(tenant, self.COMMAND_NAME, *args, **options)
                     self.execute_command(
                         tenant,
                         self.COMMAND_NAME,
                         *args,
-                        **{k: v for k, v in options.items() if k not in arguments}
+                        **options
                     )
 
 
